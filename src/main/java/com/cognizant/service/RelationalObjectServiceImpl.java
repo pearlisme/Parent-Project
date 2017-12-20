@@ -41,9 +41,7 @@ public class RelationalObjectServiceImpl implements RelationalObjectService {
 			}
 		} catch (EmptyResultDataAccessException e) {
 			throw new RuntimeException("Empty relationalObjectList found!");
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		} 
 	}
 
 	private int findUltimateParent(List<RelationalObject> relationalObjectList, int innerChildId) {
