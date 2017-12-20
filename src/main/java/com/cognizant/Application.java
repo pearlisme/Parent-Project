@@ -10,8 +10,9 @@ import com.cognizant.service.RelationalObjectService;
 public class Application {
 
 	static int childId;
-	public static void main(String[] args) {
+	public static void main(String[] args) throws CustomException {
 
+		try {
 		// creating applicaiton context
 		AbstractApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
 		RelationalObjectService relationalObjectService = ctx.getBean("relationalObjectService",
@@ -25,7 +26,9 @@ public class Application {
 		childId = in.nextInt();
 		in.close();
 		relationalObjectService.getParentById(childId);
-
+		}catch (NullPointerException e) {
+			throw new CustomException("Child id does not exists");
+		}
 	}
 
 }
