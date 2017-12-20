@@ -28,7 +28,7 @@ public class RelationalObjectDaoImpl implements RelationalObjectDao {
 					new BeanPropertyRowMapper<RelationalObject>(RelationalObject.class));
 
 			return relationalObjectList;
-		} catch (DataAccessException e) {
+		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 		return null;
