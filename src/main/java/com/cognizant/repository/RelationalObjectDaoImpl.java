@@ -28,12 +28,8 @@ public class RelationalObjectDaoImpl implements RelationalObjectDao {
 					new BeanPropertyRowMapper<RelationalObject>(RelationalObject.class));
 
 			return relationalObjectList;
-		} catch (InvalidResultSetAccessException e) {
-			throw new RuntimeException(e);
 		} catch (DataAccessException e) {
 			throw new RuntimeException(e);
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 		return null;
 
