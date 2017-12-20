@@ -55,8 +55,8 @@ public class RelationalObjectServiceImpl implements RelationalObjectService {
 
 				// Removing the child object from the List to optimise the result list
 				relationalObjectList.remove(relationalObject);
-				// Recursive call to find the Utimate Parent
-				findUltimateParent(relationalObjectList, relationalParent);
+				// Recursive call to find the Utimate Parent by return current innerChild
+				return findUltimateParent(relationalObjectList, relationalParent);
 			}
 		}
 		// Returning the Child Id as parent if no parent mapped with the child id
