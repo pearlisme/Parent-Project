@@ -25,7 +25,8 @@ public class Application {
 		System.out.println("Enter the Child id : ");
 		childId = in.nextInt();
 		in.close();
-		relationalObjectService.getParentById(childId);
+		relationalObjectService.getParentsByInMemory(childId);
+		relationalObjectService.getParentByQuery(childId);
 		}catch (NullPointerException e) {
 			throw new CustomException("Child id does not exists");
 		}

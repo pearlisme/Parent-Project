@@ -18,7 +18,7 @@ public class RelationalObjectDaoImpl implements RelationalObjectDao {
 	private JdbcTemplate jdbcTemplate;
 
 	@Override
-	public List<RelationalObject> getParents() {
+	public List<RelationalObject> getParentsByInMemory() {
 
 		List<RelationalObject> relationalObjectList = null;
 
@@ -27,6 +27,20 @@ public class RelationalObjectDaoImpl implements RelationalObjectDao {
 
 			return relationalObjectList;
 
+	}
+
+	
+	@Override
+	public RelationalObject getParentByQuery(int childId) {
+		
+		RelationalObject relationalObject = null;
+		String sql="SELECT (SELECT parent_id FROM mirror m1 WHERE m1.child_id = ?) AS \"IMMEDIATE PARENT\" , parent_id AS \"ULTIMATE PARENT\" FROM mirror WHERE CONNECT_BY_ISLEAF =1\n" + 
+				"CONNECT BY PRIOR parent_id = child_id\n" + 
+				"START WITH child_id =?";
+		
+		relationalObject = jdbcTemplate.queryForObject(sql, new Object[] {childId} ,new BeanPropertyRowMapper<RelationalObject>(RelationalObject.class));
+		
+		return relationalObject;
 	}
 
 }

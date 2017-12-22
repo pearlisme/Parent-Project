@@ -6,6 +6,8 @@ import com.cognizant.model.RelationalObject;
 
 public interface RelationalObjectDao {
 
-	public List<RelationalObject> getParents();
+	public List<RelationalObject> getParentsByInMemory();
+	
+	public RelationalObject getParentByQuery(int childId);
 
 }

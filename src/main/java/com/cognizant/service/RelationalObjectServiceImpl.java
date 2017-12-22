@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.cognizant.model.RelationalObject;
@@ -17,12 +16,12 @@ public class RelationalObjectServiceImpl implements RelationalObjectService {
 	private RelationalObjectDao relationObjectDao;
 
 	@Override
-	public void getParentById(int childId) {
+	public void getParentsByInMemory(int childId) {
 
 		int immediateParent = 0;
 		int ultimateParent = 0;
 		try {
-			List<RelationalObject> relationalObjectList = null;
+			List<RelationalObject> relationalObjectList = relationObjectDao.getParentsByInMemory();
 
 			// Block to find the immediate parent with child id
 			if (!relationalObjectList.isEmpty()) {
@@ -42,15 +41,15 @@ public class RelationalObjectServiceImpl implements RelationalObjectService {
 			}
 		} catch (DataAccessException e) {
 			e.printStackTrace();
-		} 
+		}
 	}
 
 	private int findUltimateParent(List<RelationalObject> relationalObjectList, int childId) {
 		int parentId = 0;
-		
-		if(relationalObjectList.isEmpty())
+
+		if (relationalObjectList.isEmpty())
 			return childId;
-		
+
 		for (RelationalObject relationalObject : relationalObjectList) {
 
 			if (relationalObject.getChildId() == childId) {
@@ -65,4 +64,15 @@ public class RelationalObjectServiceImpl implements RelationalObjectService {
 		// Returning the Child Id as parent if no parent mapped with the child id
 		return childId;
 	}
+
+	@Override
+	public void getParentByQuery(int childId) {
+
+		RelationalObject relationalObject = relationObjectDao.getParentByQuery(childId);
+
+		System.out.println("IMMEIDATE PARENT: " + relationalObject.getChildId() + "ULTIMATE PARENT: "
+				+ relationalObject.getParentId());
+
+	}
+
 }
